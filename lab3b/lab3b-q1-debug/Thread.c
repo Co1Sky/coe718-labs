@@ -4,8 +4,8 @@
 
 int testcount; 
 int x, n, r;   
-int A = 0, B = 0, C = 0, D = 0, E = 0; 
-int fact = 1; 
+int A = 0, B = 1, C = 0, D = 0, E = 0; 
+int bf=1, df=1; // Task factorial storage 
 double PI = 3.14159265359; 
 
 /* 	THREAD DECLARATION */ 
@@ -42,34 +42,40 @@ int Init_Thread (void) {
   return(0);
 }
 
-int factorial(int n) {
-	for(x = 1; x <= n; x++){
-		fact = fact * x; 	
-	}	
-	return(fact); 
-}	
-
 void ThreadA (void const *argument) {
-	for(x = 0; x < 256; x++){
-		A = A + (x + (x + 2)); 
+	while(x < 256){
+		A = (A + (x + (x + 2))); 
+		x++; 
 	}	
 }	
 
 void ThreadB (void const *argument) {
-	for(n = 1; n < 16; n++){ 
-		B = B +  pow(2,n) / factorial(n); 
+	while(n < 16) { 
+		bf*=n; 
+		B = (B + (pow(2,n)/bf)); 
+		n++; 
 	}	
 }
 
 void ThreadC (void const *argument) {
-	for(n = 1; n <= 16; n++){
-		C = C + ((n+1) / n); 
+	n = 0; 
+	while(n < 16) {
+		C += ((n+1) / n); 
+		n++; 
 	}	
 }
 
 void ThreadD (void const *argument) {
-	D = 1 + (5 / factorial(1)) + (pow(5, 2) / factorial(2)) + (pow(5,3) + factorial(3)) + 
-					 (pow(5,4), factorial(4)) + (pow(5,5), factorial(5)); 
+	n = 0; 
+	while(n < 6){
+		if (n == 0) {
+			D = 1;
+		}	else {
+			df*=n;
+			D += (pow(5,n)/df);
+		}
+		n++; 
+	}	
 }
 
 void ThreadE (void const *argument) {
